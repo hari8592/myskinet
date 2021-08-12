@@ -20,6 +20,18 @@ namespace Infrastructure.Data
             {
                 query = query.Where(spec.Criteria);   //p=>p.productypeid=1
             }
+            if (spec.OrderBy != null)
+            {
+                query = query.OrderBy(spec.OrderBy);
+            }
+            if (spec.OrderByDescending != null)
+            {
+                query = query.OrderByDescending(spec.OrderByDescending);
+            }
+            if (spec.IsPagingEnabled)
+            {
+                query = query.Skip(spec.Skip).Take(spec.Take);
+            }
             // this what doing below method
             //.Include(p => p.ProductType).Include(p => p.ProductBrand)
             query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));
